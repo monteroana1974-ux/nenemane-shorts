@@ -302,7 +302,7 @@ const TOMAS: Toma[] = [
   T(780, "club", { x: 730, y: 1290, z: 3.4 }, { x: 730, y: 1290, z: 4.0 }, (c) => [hardy(c, { gesto: "duda", pose: "sostiene", mira: Math.sin(c.f / 20) }), cinta(c, 790, 1360, 60, 0.035)]),
   T(804, "club", { x: 730, y: 1330, z: 2.8 }, { x: 730, y: 1330, z: 3.3 }, (c) => [hardy(c, { gesto: "chulo", pose: "puno" })]),
   // La primera vez, nadie le hizo caso.
-  T(852, "club", { x: 720, y: 1640, z: 1.5 }, { x: 720, y: 1640, z: 1.75 }, (c) => [...pocos(c, 9, 852, "quietos", true), cabina(c)], "1ª"),
+  T(852, "club", { x: 719, y: 1450, z: 1.3 }, { x: 719, y: 1450, z: 1.5 }, (c) => [hardyPincha(c), ...pocos(c, 9, 852, "quietos")], "1ª"),
   // La segunda, la gente se fue de la pista.
   T(907, "club", { x: 719, y: 1380, z: 1.15 }, { x: 719, y: 1360, z: 1.4 }, (c) => [hardyPincha(c, "dientes"), ...pocos(c, 12, 907, "salen")], "2ª"),
   // La tercera, bailaban sin saber muy bien qué era aquello.
@@ -316,7 +316,7 @@ const TOMAS: Toma[] = [
   T(1138, "club", { x: 720, y: 1520, z: 1.3 }, { x: 700, y: 1680, z: 2.1 }, (c) => [...gente(c, HUECO, corro), tumb(c)]),
   T(1193, "club", { x: 690, y: 1640, z: 2.6 }, { x: 660, y: 1630, z: 3.6 }, (c) => [...gente(c, HUECO, corro), tumb(c)]),
   // Aquel tema se llamó Acid Tracks. Y así nació el acid house.
-  T(1235, "club", { x: 720, y: 1640, z: 1.45 }, { x: 720, y: 1640, z: 1.75 }, (c) => [...genteDJ(c), cabina(c)], "ACID TRACKS"),
+  T(1235, "club", { x: 719, y: 1288, z: 1.0 }, { x: 719, y: 1350, z: 1.2 }, (c) => gente(c), "ACID TRACKS"),
   T(1300, "club", { x: 822, y: 1460, z: 2.2 }, { x: 822, y: 1440, z: 3.0 }, (c) => gente(c)),
   T(1333, "club", { x: 640, y: 1580, z: 2.0 }, { x: 630, y: 1560, z: 2.8 }, (c) => gente(c)),
   // ¿Tú habrías aguantado en la pista hasta la cuarta?
