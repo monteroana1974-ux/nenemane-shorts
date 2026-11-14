@@ -6,7 +6,7 @@ import numpy as np, soundfile as sf, librosa
 ap = argparse.ArgumentParser(); [ap.add_argument(x) for x in ("guion", "voz", "anclas", "salida", "agil")]
 ap.add_argument("--bpm", type=float, required=True); ap.add_argument("--offset", type=float, default=0.1); ap.add_argument("--cierre", type=float, default=2.8)
 a = ap.parse_args(); FPS = 30; MAXP, KEEP = 0.15, 0.12
-ESP = {"1984": 8, "phuture": 2, "hardy": 2, "ron": 1, "acid": 2}
+ESP = {"1984": 8, "1987": 11, "dj": 2, "tracks": 1, "house": 1, "phuture": 2, "hardy": 2, "ron": 1, "acid": 2}
 def sil(p):
     k = re.sub(r"[^\wáéíóúüñ]", "", p.lower()); return ESP.get(k, max(1, len(re.findall(r"[aeiouáéíóúü]+", k))))
 g = json.load(open(a.guion, encoding="utf-8")); A = json.load(open(a.anclas))

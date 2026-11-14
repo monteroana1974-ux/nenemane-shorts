@@ -114,8 +114,20 @@ const guit = (c: Ctx, expr: Expr, extra: Partial<Persona> = {}) => P("guit", GUI
 // sótano
 const kidsSotano = (c: Ctx, exprs: Expr[]) => KIDS.map((o, k) => P(`kidS${k}`, o, 520 + k * 220, 1255, 560, { mode: "stand", expr: exprs[k], facing: 0, look: k === 0 ? 1 : k === 2 ? -1 : 0, headTilt: Math.round(Math.sin(c.bt * Math.PI + k) * 2) * 3 }, 20 + k, { dOv: 0.06 }));
 // club
-const gente = (c: Ctx, hueco: [number, number, number] | null = null, m?: (i: number) => MunecoOpts | undefined) => {
-  const out: Pieza[] = [P("dj", DJ, 730, 1445, 300, { mode: "stand", expr: "grin", facing: 0, wave: Math.sin(c.bt * Math.PI) }, 30, { dOv: 0.03 })];
+// cada bailarín a su bola: unos de espaldas (mirando al DJ), otros girados; cada uno con su ritmo, su baile y su cara
+const BEAT = 30 * 60 / BPM;
+const estilo = (i: number, f: number): MunecoOpts => {
+  const espaldas = hh(i, 7) < 0.38;
+  const giro = espaldas ? 0 : (hh(i, 9) < 0.5 ? -1 : 1) * (0.35 + 0.65 * hh(i, 10));
+  const r = hh(i, 8), vel = r < 0.3 ? 0.5 : r < 0.85 ? 1 : 2;           // medio tiempo, normal o doble
+  const fase = ((f / (2 * BEAT)) * vel + hh(i, 11)) % 1;
+  const pose = (["baila", "brazosArriba", "baila", "brazosArriba", "quieto"] as Pose[])[Math.floor(hh(i, 12) * 5)];
+  const gesto = (["ojosCerrados", "sonrisa", "ojosCerrados", "risa", "chulo"] as Gesto[])[Math.floor(hh(i, 13) * 5)];
+  const inclina = Math.sin((f / (2 * BEAT)) * Math.PI * 2 * vel + i) * 12;
+  return { espaldas, giro, fase, pose, gesto, inclina, mira: giro };
+};
+const gente = (c: Ctx, hueco: [number, number, number] | null = null, m?: (i: number, px: number) => MunecoOpts | undefined) => {
+  const out: Pieza[] = [hardyPincha(c)];
   for (let i = 0; i < 24; i++) {
     const row = Math.floor(i / 6), col = i % 6;
     const py = 1600 + row * 85 + hh(i, 1) * 30, px = 240 + col * 190 + (row % 2) * 95 + (hh(i, 2) - 0.5) * 60;
@@ -123,7 +135,7 @@ const gente = (c: Ctx, hueco: [number, number, number] | null = null, m?: (i: nu
     const dd = profEn(c.prof, px, py), alto = 300 * (0.62 + 1.25 * dd) / 0.679 * (0.9 + 0.2 * hh(i, 4));
     const ex: Expr = (["smile_closed", "grin", "smile_closed", "laugh", "smile_closed", "shout"] as Expr[])[i % 6];
     out.push(P(`b${i}`, bailarin(i), px, py, alto, { mode: "stand", expr: ex, facing: 0, wave: 0, headTilt: Math.round(Math.sin(c.bt * Math.PI) * 2) * 3 }, 40 + i,
-      { salto: 0, m: m?.(i) }));
+      { salto: 0, m: { ...estilo(i, c.f), ...(m?.(i, px) ?? {}) } }));
   }
   return out;
 };
@@ -176,9 +188,10 @@ const tumb = (c: Ctx, w = 640) => {
   const d = profEn(c.prof, fx, fy), t = c.f / FPS;
   return O(`tumb|${c.f}`, 1800, 1140, (p: Pen) => { p.g.save(); p.g.scale(1.5, 1.5); tumbado({ t, bpm: BPM })(p); p.g.restore(); }, fx, cy, w, h, d);
 };
-const corro = (i: number): MunecoOpts | undefined => {
-  if (i < 12) return undefined;
-  return { gesto: (["risa", "grito", "sorpresa", "risa"] as Gesto[])[i % 4], pose: i % 3 === 0 ? "brazosArriba" : "baila", rubor: true };
+const corro = (i: number, px: number): MunecoOpts | undefined => {
+  if (i < 12) return undefined;   // los de atrás siguen a su bola; los cercanos le miran
+  const lado = Math.sign(HUECO[0] - px) || 1;
+  return { gesto: (["risa", "grito", "sorpresa", "risa"] as Gesto[])[i % 4], pose: i % 3 === 0 ? "brazosArriba" : "baila", rubor: true, espaldas: false, giro: lado * 0.7, mira: lado };
 };
 const ruedas = (c: Ctx, vel: number) => maq(c, 740, 1135, 330, 0.12, true, vel);
 const pop = (c: Ctx, u0: number) => sm((c.u - u0) / 0.15);
@@ -186,8 +199,8 @@ const pop = (c: Ctx, u0: number) => sm((c.u - u0) / 0.15);
 const TOMAS: Toma[] = [
   // En 1987, un DJ de Chicago pinchó la misma canción cuatro veces en una noche. Y la pista se le vació.
   T(0, "club", { x: 719, y: 1290, z: 1.0 }, { x: 719, y: 1330, z: 1.2 }, (c) => [hardyPincha(c), ...pocos(c, 10, 0, "quietos")], "CHICAGO · 1987"),
-  T(47, "club", { x: 730, y: 1290, z: 2.8 }, { x: 730, y: 1290, z: 3.3 }, (c) => [hardyPincha(c, "chulo")], "CHICAGO · 1987"),
-  T(90, "club", { x: 730, y: 1300, z: 2.3 }, { x: 730, y: 1300, z: 2.8 }, (c) => [hardyPincha(c, "dientes"),
+  T(85, "club", { x: 730, y: 1290, z: 2.8 }, { x: 730, y: 1290, z: 3.3 }, (c) => [hardyPincha(c, "chulo")], "CHICAGO · 1987"),
+  T(115, "club", { x: 730, y: 1300, z: 2.3 }, { x: 730, y: 1300, z: 2.8 }, (c) => [hardyPincha(c, "dientes"),
     ...(c.u > 0.25 ? [O("x4", 256, 256, rotulo("4", "#ffe14d"), 900, 1180, 170 * pop(c, 0.25), 170 * pop(c, 0.25), 0.03)] : [])], "CHICAGO · 1987"),
   T(141, "club", { x: 719, y: 1500, z: 1.15 }, { x: 719, y: 1500, z: 1.35 }, (c) => [hardy(c, { gesto: "triste" }), ...pocos(c, 12, 141, "salen")]),
   // La canción venía en una cinta. Se la habían dado tres chavales.
@@ -230,14 +243,14 @@ const TOMAS: Toma[] = [
   // Y a la cuarta, la pista se volvió loca.  (el drop del tema cae en «cuarta», cuadro 1088)
   T(1072, "club", { x: 730, y: 1300, z: 3.0 }, { x: 730, y: 1300, z: 3.4 }, (c) => [hardyPincha(c, "chulo")], "4ª"),
   T(1088, "club", { x: 719, y: 1450, z: 1.35 }, { x: 719, y: 1450, z: 1.05 }, (c) => gente(c), "4ª"),
-  T(1112, "club", { x: 720, y: 1700, z: 1.8 }, { x: 720, y: 1700, z: 2.15 }, (c) => gente(c), "4ª"),
+  T(1112, "club", { x: 1060, y: 1400, z: 2.6 }, { x: 1070, y: 1380, z: 3.6 }, (c) => gente(c), "4ª"),
   // Había un tío tirado en el suelo pataleando en el aire.
   T(1138, "club", { x: 720, y: 1520, z: 1.3 }, { x: 700, y: 1680, z: 2.1 }, (c) => [...gente(c, HUECO, corro), tumb(c)]),
   T(1193, "club", { x: 690, y: 1640, z: 2.6 }, { x: 660, y: 1630, z: 3.6 }, (c) => [...gente(c, HUECO, corro), tumb(c)]),
   // Aquel tema se llamó Acid Tracks. Y así nació el acid house.
   T(1235, "club", { x: 719, y: 1288, z: 1.0 }, { x: 719, y: 1350, z: 1.2 }, (c) => gente(c), "ACID TRACKS"),
-  T(1294, "club", { x: 720, y: 1650, z: 1.7 }, { x: 720, y: 1650, z: 2.05 }, (c) => gente(c)),
-  T(1326, "club", { x: 730, y: 1300, z: 2.4 }, { x: 725, y: 1400, z: 1.3 }, (c) => gente(c)),
+  T(1300, "club", { x: 822, y: 1460, z: 2.2 }, { x: 822, y: 1440, z: 3.0 }, (c) => gente(c)),
+  T(1333, "club", { x: 640, y: 1580, z: 2.0 }, { x: 630, y: 1560, z: 2.8 }, (c) => gente(c)),
   // ¿Tú habrías aguantado en la pista hasta la cuarta?
   T(1357, "club", { x: 600, y: 1650, z: 3.2 }, { x: 560, y: 1640, z: 4.4 }, (c) => [...gente(c, HUECO, corro), tumb(c)]),
 ];
