@@ -1,0 +1,5 @@
+node_modules/
+out/
+*.log
+# el tema completo pesa 149 MB (GitHub admite 100 MB por archivo): se guarda aparte
+public/tema_3i_atlas.wav

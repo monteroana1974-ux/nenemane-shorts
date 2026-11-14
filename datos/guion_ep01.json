@@ -1,0 +1,22 @@
+{
+  "id": "tb303",
+  "titulo": "La máquina que nadie quería",
+  "serie": "Techno Old School",
+  "episodio": 1,
+  "bpm": 126,
+  "segmentos": [
+    {"toma": "tienda",   "fecha": "1981",              "texto": "En 1981, Roland sacó una máquina para que los guitarristas tocaran sin bajista."},
+    {"toma": "desastre", "fecha": "",                  "texto": "Y fue un desastre. Sonaba a todo menos a un bajo: chirriaba, burbujeaba, parecía un pato enfadado."},
+    {"toma": "manual",   "fecha": "",                  "texto": "Además, en Estados Unidos venía sin manual en inglés. Nadie sabía programarla."},
+    {"toma": "saldo",    "fecha": "1984",              "texto": "En 1984 dejaron de fabricarla y acabó en tiendas de segunda mano, a precio de saldo."},
+    {"toma": "misterio", "fecha": "",                  "texto": "Pero, ¿quién compra una máquina que no sirve para lo que se inventó?"},
+    {"toma": "chicago",  "fecha": "CHICAGO",           "texto": "Fíjate: en Chicago, tres chavales de un grupo llamado Phuture se hicieron con una barata."},
+    {"toma": "ruedas",   "fecha": "",                  "texto": "Y en vez de usarla bien, empezaron a girar sus ruedas mientras sonaba."},
+    {"toma": "club",     "fecha": "1987 · ACID TRACKS", "texto": "Ese chirrido se convirtió en Acid Tracks, en 1987. Y nació el acid house."},
+    {"toma": "remate",   "fecha": "HOY",               "texto": "Hoy, la máquina que nadie quería se paga a varias veces su precio de entonces."}
+  ],
+  "fuentes": [
+    "https://en.wikipedia.org/wiki/Roland_TB-303",
+    "https://djtechtools.com/2015/12/02/history-tb-303-rolands-accidental-legend"
+  ]
+}

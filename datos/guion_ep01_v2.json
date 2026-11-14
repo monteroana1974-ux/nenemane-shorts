@@ -1,0 +1,19 @@
+{
+  "id": "tb303_v2", "titulo": "La noche que nació el acid", "serie": "Techno Old School", "episodio": 1, "bpm": 130,
+  "segmentos": [
+    {"toma": "puerta",   "fecha": "CHICAGO", "texto": "Tres chavales de Chicago esperaron dos horas en la puerta de un club con una cinta en la mano."},
+    {"toma": "dj",       "fecha": "", "texto": "Dentro pinchaba Ron Hardy."},
+    {"toma": "maquina",  "fecha": "", "texto": "La cinta sonaba a una máquina que nadie quería:"},
+    {"toma": "roland",   "fecha": "", "texto": "una caja de Roland pensada para hacer de bajo, que chirriaba como un pato enfadado."},
+    {"toma": "saldo",    "fecha": "1984", "texto": "Fracasó tanto que en 1984 dejaron de fabricarla, y acabó de saldo."},
+    {"toma": "escucha",  "fecha": "", "texto": "Hardy escuchó la cinta entera sin decir nada."},
+    {"toma": "pincha",   "fecha": "", "texto": "Y la pinchó."},
+    {"toma": "vacia",    "fecha": "", "texto": "La gente se fue de la pista."},
+    {"toma": "otra",     "fecha": "", "texto": "Pero él la volvió a poner. Y otra vez."},
+    {"toma": "cuarta",   "fecha": "4:00 AM", "texto": "Fíjate: a la cuarta, a las cuatro de la mañana, la pista estaba como loca."},
+    {"toma": "boca",     "fecha": "", "texto": "Había gente bailando boca abajo."},
+    {"toma": "truco",    "fecha": "", "texto": "El truco era que los chavales no la usaban como bajo: giraban sus ruedas mientras sonaba, y el sonido se abría y se cerraba como una boca."},
+    {"toma": "acid",     "fecha": "ACID", "texto": "Lo llamaron acid."},
+    {"toma": "ruido",    "fecha": "", "texto": "Y todavía hay quien dice que el acid es solo ruido."}
+  ]
+}
